@@ -2,7 +2,7 @@ from monede import settings
 from monede.core.api import market
 
 
-class Coins:
+class Monede:
     def __init__(self):
         pass
 
