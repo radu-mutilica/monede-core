@@ -12,7 +12,7 @@ monede = Monede()
 
 @app.route('/all', methods=['GET'])
 def get_all():
-    return flask.jsonify(monede.all())
+    return flask.jsonify(monede.get())
 
 
 if __name__ == '__main__':
