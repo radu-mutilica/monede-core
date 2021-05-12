@@ -4,8 +4,8 @@ from monede.core.helpers import sanitize
 _pytrends = TrendReq()
 
 
-def coin_trend(id, timeframe):
-    _pytrends.build_payload([sanitize(id)], timeframe=timeframe)
+def coin_trend(name, timeframe):
+    _pytrends.build_payload([sanitize(name)], timeframe=timeframe)
     interest = _pytrends.interest_over_time()
 
     data = []

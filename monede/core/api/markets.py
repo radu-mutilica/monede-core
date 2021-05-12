@@ -22,9 +22,9 @@ def coins(vs_currency):
 # @cachier(
 #     stale_after=settings.INDIVIDUAL_COIN_MARKET_CALL_STALE_AFTER,
 #     cache_dir=db.CACHE)
-def cg_coin_history(id, vs_currency, from_timestamp, to_timestamp):
+def cg_coin_history(symbol, vs_currency, from_timestamp, to_timestamp):
     history = _cg.get_coin_market_chart_range_by_id(
-        id=id,
+        symbol=symbol,
         vs_currency=vs_currency,
         from_timestamp=from_timestamp,
         to_timestamp=to_timestamp
@@ -33,10 +33,11 @@ def cg_coin_history(id, vs_currency, from_timestamp, to_timestamp):
     return history
 
 
-def cw_coin_history(id, vs_currency, from_timestamp, to_timestamp):
+def cw_coin_history(symbol, vs_currency, from_timestamp, to_timestamp):
+    pair = f'{symbol.lower()}usd'
     history = _cw.get_markets_ohlc(
         exchange='gdax',
-        pair='btcusd',
+        pair=pair,
         before=to_timestamp,
         after=from_timestamp,
         periods='60').json()['result']['60']

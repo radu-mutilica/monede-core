@@ -1,3 +1,5 @@
+import logging
+
 from monede import settings
 from monede.core.api import markets
 from monede.core.coin import Snapshot
@@ -18,22 +20,24 @@ class Monede:
 
         coins = []
         for coin_market in coin_markets:
-
-            snapshot = Snapshot(
-                id=coin_market['id'],
-                name=coin_market['name'],
-                vs_currency=settings.VS_CURRENCY,
-                from_timestamp=from_timestamp,
-                to_timestamp=to_timestamp,
-                timeframe=settings.COIN_TREND_TIMEFRAME
-            )
-
-            coins.append(
-                {
-                    'id': snapshot.id,
-                    'name': snapshot.name,
-                    'historical': snapshot.historical.data
-                }
-            )
-
+            try:
+                snapshot = Snapshot(
+                    symbol=coin_market['symbol'],
+                    name=coin_market['name'],
+                    vs_currency=settings.VS_CURRENCY,
+                    from_timestamp=from_timestamp,
+                    to_timestamp=to_timestamp,
+                    timeframe=settings.COIN_TREND_TIMEFRAME
+                )
+            except Exception:
+                logging.exception(
+                    f'failed to create coin snapshot for {coin_market["name"]}:')
+            else:
+                coins.append(
+                    {
+                        'symbol': snapshot.symbol,
+                        'name': snapshot.name,
+                        'historical': snapshot.historical.data
+                    }
+                )
         return coins
