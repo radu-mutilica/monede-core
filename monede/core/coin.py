@@ -4,13 +4,19 @@ from monede.core.api import trends
 
 def massage(market, trend):
     data = []
-    for mp, tp in zip(market[:-1], trend):
+    market = market[:-1]
+    prices = [mp[4] for mp in market]
+    min_price_1hr = min(prices)
+
+    price_percentages = [100 - (float(min_price_1hr) / float(p)) * 100 for p in prices]
+
+    for p, m, t in zip(price_percentages, market, trend):
         data.append({
-            'time': mp[0],  # doesn't matter if mp[0] or tp[0],
-            'price': mp[4],
-            'volume': mp[5],
-            'trend': tp[1],
-            'trades': mp[8]
+            'time': m[0],  # doesn't matter if mp[0] or tp[0],
+            'price': p,
+            'volume': float(m[5]),
+            'trend': t[1],
+            'trades': m[8]
         })
     return data
 

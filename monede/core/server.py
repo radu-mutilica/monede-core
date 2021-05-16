@@ -29,17 +29,8 @@ class Monede:
             else:
                 coins.append(
                     {
-                        'symbol': snapshot.symbol,
-                        'name': snapshot.name,
                         'historical': snapshot.historical.data,
-                        'price_change_percentage_24h': coin_market['price_change_percentage_24h'],
-                        'total_volume': coin_market['total_volume'],
-                        'current_price': coin_market['current_price'],
-                        'image': coin_market['image'],
-                        'ath': coin_market['ath'],
-                        'ath_change_percentage': coin_market['ath_change_percentage'],
-                        'market_cap': coin_market['market_cap'],
-                        'market_cap_rank': coin_market['market_cap_rank']
+                        **coin_market
                     }
                 )
         return coins
